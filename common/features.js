@@ -7,5 +7,3 @@ features.getPathCount = (paths) => {
 features.getPointCount = (paths) => {
   const points = paths.flat();
 }
-
-// some change
