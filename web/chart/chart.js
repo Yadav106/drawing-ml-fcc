@@ -37,16 +37,16 @@ class Chart{
       this.defaultDataBounds=this.#getDataBounds();
 
       this.dynamicPoint = null;
-      this.nearestSample = null;
+      this.nearestSamples = null;
 
       this.#draw();
 
       this.#addEventListeners();
    }
 
-  showDynamicPoint(point, label, nearestSample) {
+  showDynamicPoint(point, label, nearestSamples) {
     this.dynamicPoint = { point, label };
-    this.nearestSample = nearestSample;
+    this.nearestSamples = nearestSamples;
     this.#draw();
   }
 
@@ -260,10 +260,13 @@ class Chart{
         graphics.drawPoint(ctx, pixelLoc, "rgba(255, 255, 255, 0.7)", 100000000);
 
         // draw a line from input to the nearest sample
-        ctx.beginPath();
-        ctx.moveTo(...pixelLoc);
-        ctx.lineTo(...math.remapPoint(this.dataBounds, this.pixelBounds, this.nearestSample.point));
-        ctx.stroke();
+        for (const sample of this.nearestSamples) {
+          const point = math.remapPoint(this.dataBounds, this.pixelBounds, sample.point);
+          ctx.beginPath();
+          ctx.moveTo(...pixelLoc);
+          ctx.lineTo(...point);
+          ctx.stroke();
+        }
 
         graphics.drawImage(ctx, this.styles[label].image, pixelLoc);
       }
