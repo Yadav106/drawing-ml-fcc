@@ -21,6 +21,7 @@
     <script src="../common/constants.js"></script>
     <script src="../common/utils.js"></script>
     <script src="../common/draw.js"></script>
+    <script src="../common/featureFuntions.js"></script>
 
     <script src="js/display.js"></script>
     <script src="js/sketchPad.js"></script>
@@ -32,7 +33,7 @@
     <script>
       const {samples, featureNames} = features;
       const groups = utils.groupBy(samples, "student_id");
-      console.log(groups);
+      // console.log(groups);
 
       for (let student_id in groups) {
         const samples = groups[student_id];
@@ -57,8 +58,17 @@
         handleClick
       );
 
-      const sketchPad = new SketchPad(inputContainer);
+      const sketchPad = new SketchPad(inputContainer, onDrawingUpdate);
       sketchPad.canvas.style.cssText += "outline:100000px solid rgba(0,0,0,0.7);"
+
+      function onDrawingUpdate(paths) {
+        const point = [
+          featureFunctions.getPathCount(paths),
+          featureFunctions.getPointCount(paths)
+        ];
+
+        console.log(point);
+      }
     </script>
 
   </body>
