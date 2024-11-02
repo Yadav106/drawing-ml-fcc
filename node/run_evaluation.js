@@ -29,3 +29,28 @@ for (const sample of testingSamples) {
 console.log("ACCURACY : " + 
   correctCount + " / " + totalCount + 
   " (" + utils.formatPercent(correctCount/totalCount) + ")");
+
+console.log("CREATING DECISION BOUNDARY ... ");
+
+const { createCanvas } = require("canvas");
+const canvas = createCanvas(100, 100);
+const ctx = canvas.getContext("2d");
+
+for (let x = 0; x < canvas.width; x++) {
+  for (let y=0; y < canvas.height; y++) {
+    const point = [
+      x / canvas.width,
+      1 - y/canvas.height
+    ];
+
+    const { label } = kNN.predict(point);
+    const color = utils.styles[label].color;
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, 1, 1);
+  }
+}
+
+const buffer = canvas.toBuffer("image/png");
+fs.writeFileSync(constants.DECISION_BOUNDARY, buffer);
+
+console.log("DONE!");
