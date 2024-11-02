@@ -258,6 +258,7 @@ class Chart{
           this.dataBounds, this.pixelBounds, point
         );
         graphics.drawPoint(ctx, pixelLoc, "rgba(255, 255, 255, 0.7)", 100000000);
+        ctx.strokeStyle = "gray";
 
         // draw a line from input to the nearest sample
         for (const sample of this.nearestSamples) {
